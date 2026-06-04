@@ -25,7 +25,7 @@ public class Account {
             this.balance -= amount;
             System.out.println(amount + "원이 출금되었습니다., 잔고는" + balance + "원 입니다.");
         } else {
-            System.out.println("잔고가 부족합니다. 잔고는" + balance + "원 입니다.");
+            System.out.println("잔고가 부족합니다. 현재 잔고는" + balance + "원 입니다.");
         }
 
     }
