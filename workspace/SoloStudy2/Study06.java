@@ -69,4 +69,7 @@ public class Study06 {
 
 
     }
+
+    public static class Study07 {
+    }
 }
