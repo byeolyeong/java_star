@@ -3,8 +3,8 @@ package ch12.family.ex02;
 public class Test {
     public static void main(String[] args){
 //        Parent p = new Parent("부모");
-//        Son p = new Son("아들");
-        Daughter p = new Daughter("딸");
+        Son p = new Son("아들");
+//        Daughter p = new Daughter("딸");
 
         dailySchedule(p);
     }
@@ -18,6 +18,7 @@ public class Test {
     }
 
     private static void dailySchedule(Son p){    // 클래스는 타입으로 받을 수 있음, Parent 타입의 주소의 p라는 매개변수를 받는다.
+//        p.work(); // private 메서드는 호출이 안됨.(호출하면 에러발생)
         p.eat();
         p.play();
         p.sleep();

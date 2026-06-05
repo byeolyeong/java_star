@@ -16,7 +16,7 @@ public class Parent {
     }
 
     void play(){
-        System.out.println(name + " : 게임한다.");
+        System.out.println(name + " : 등산한다.");
     }
 
     void sleep(){
