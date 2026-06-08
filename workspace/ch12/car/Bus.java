@@ -19,6 +19,7 @@ public class Bus extends Car{
 
 // 우클릭 > generate > construct
     public Bus(String model, String no, String type, String[] stations, int price, int maxPassengerCount) {
+//        super(); // 명시적으로 부모의 생성자를 호출하는 코드가 없으면, 부모의 기본 생성자를 호출하는 코드가 컴파일러에 의해서 자동으로 추가
         super(model);
         this.no = no;
         this.type = type;
