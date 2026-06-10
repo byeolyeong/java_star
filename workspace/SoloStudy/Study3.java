@@ -1,6 +1,7 @@
 package SoloStudy;
 
 public class Study3 {
+    // 나도 코딩 chap 3 - 12 변수 이름 짓는 법
     public static void main(String[] args) {
         // 변수 이름 짓는 법
         // 1. 저장할 값에 어울리는 이름

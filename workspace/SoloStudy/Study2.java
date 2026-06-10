@@ -2,6 +2,7 @@ package SoloStudy;
 
 public class Study2 {
 
+    // 나도 코딩 chap 3 - 11 주석
     //주석 사용
     public static void main(String[] args) {
         System.out.println("(10분 전) 잠시 후 결혼식 시작 예정이오니, 자리에 착석 부탁립니다.");

@@ -2,6 +2,7 @@ package SoloStudy2;
 
 public class Study09 {
     public static void main(String[] args){
+        // 나도 코딩 chap 4 - 21 논리 연산자
         // 논리 연산자
         boolean 김치찌개 = true;
         boolean 계란말이 = true;

@@ -1,6 +1,7 @@
 package SoloStudy;
 
 public class Study1 {
+    // 나도 코딩 chap 3 - 8~10 자료형, 변수
     public static void main(String[] args){
 
         //        int, long, float, double, char, String, boolean

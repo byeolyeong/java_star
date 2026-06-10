@@ -1,7 +1,9 @@
 package SoloStudy2;
 
+
 public class Study10 {
     public static void main(String[] args){
+        // 나도 코딩 chap 4 - 22 삼항 연산자
         // 삼항 연산자
 //        결과 = (조건) ? (참의 경우 결과값) : (거짓의 경우 결과값)
         int x = 3;

@@ -2,6 +2,7 @@ package SoloStudy2;
 
 public class Study06 {
     public static void main(String[] args){
+        // 나도 코딩 chap 4 - 17 산술 연산자
         // 산술연산자
 
         // 일반 연산

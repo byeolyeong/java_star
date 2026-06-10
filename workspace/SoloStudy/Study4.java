@@ -1,6 +1,7 @@
 package SoloStudy;
 
 public class Study4 {
+    // 나도 코딩 chap 3 - 13 상수
 
     // 상수
     public static void main(String[] args){

@@ -2,6 +2,7 @@ package SoloStudy2;
 
 public class Study08 {
     public static void main(String[] args){
+        // 나도 코딩 chap 4 - 20 비교 연산자
         // 비교 연산자
         System.out.println(5 > 3);  // 5는 3보다 크다. (참이면 true, 거짓이면 false)
         System.out.println(5 >= 3); // 5는 3보다 크거나 같다.(true)

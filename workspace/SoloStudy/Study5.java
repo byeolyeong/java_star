@@ -2,6 +2,7 @@ package SoloStudy;
 
 public class Study5 {
     public static void main(String[] args){
+        // 나도 코딩 chap 3 - 14~15 형변환
         // 형변환
         // 정수형에서 실수형으로
         // 실수형에서 정수형으로
