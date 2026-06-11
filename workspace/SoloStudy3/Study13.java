@@ -1,0 +1,39 @@
+package SoloStudy3;
+
+public class Study13 {
+    public static void main(String[] args){
+        // 나도 코딩 chap 5 - 27 특수문자(Escape Sequence)
+        // 특수문자(Escape Sequence)
+        // \n, \t, \\, \", \'
+        System.out.println("자바가 ");
+        System.out.println("너무 ");
+        System.out.println("재밌어요");
+
+        // \n : 줄바꿈
+        System.out.println("자바가\n너무\n재밌어요");
+
+        // 해물파전     9000원
+        // 김치전       8000원
+        // 부추전       8000원
+        // \t : 탭(Tab)
+        System.out.println("해물파전\t9000원");
+        System.out.println("김치전\t8000원");
+        System.out.println("부추전\t8000원");
+
+        // \\ : \를 표현할 때 사용.
+        System.out.println("C:\\Program Files\\Java");
+
+        // \" : 큰따옴표 출력
+        // 단비가 "냐옹" 이라고 했어요
+        System.out.println("단비가 \"냐옹\" 이라고 했어요");
+
+        // \' : 작은따옴표 출력
+        // 단비가 '뭘 봐?' 라는 표정을 지었어요
+        System.out.println("단비가 '뭘 봐?' 라는 표정을 지었어요");   // 이렇게 해도 상관은 없음.
+        System.out.println("단비가 \'뭘 봐?\' 라는 표정을 지었어요");
+
+        char c = 'A';   // char 에 값을 줄에는 ' 를 사용
+        c = '\'';   // ' 만 출력하고 싶을때 사용
+    }
+
+}
