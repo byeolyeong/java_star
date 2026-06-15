@@ -3,6 +3,7 @@ DROP table if exists  reply;
 DROP table if exists  post;	
 drop table if exists member;
 
+
 -- DROP DATABASE if exists board_db;
 -- CREATE DATABASE board_db;
 
@@ -35,8 +36,8 @@ CREATE TABLE reply (
 );
 
 INSERT INTO member VALUES (NULL, 'haru@gmail.com', 'pwd123', '하루', '01011112222', DEFAULT);
-INSERT INTO member VALUES (NULL, 'haru2@gmail.com', 'pwd123', '하루2', NULL, '2026-05-10 12:13:45');
-INSERT INTO member (email, password, name, created_at) VALUES ('namu@gmail.com', 'pwd789', '나무', '2026-05-29 13:34:32');
+INSERT INTO member VALUES (NULL, 'haru2@gmail.com', 'pwd123', '하루2', NULL, '2025-05-10 12:13:45');
+INSERT INTO member (email, password, name, created_at) VALUES ('namu@gmail.com', 'pwd789', '나무', '2026-04-29 13:34:32');
 INSERT INTO member (email, password, name, phone, created_at) VALUES
     ('harong@gmail.com', 'pwd012', '하롱이', '01022223333', '2026-05-29 13:34:32'),
     ('yong@gmail.com', 'pwd456', '용쌤', '0103334444', '2026-06-05 14:34:12');

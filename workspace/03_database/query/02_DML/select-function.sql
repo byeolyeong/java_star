@@ -43,3 +43,81 @@ select curdate() as curr_date;
 -- 오늘 작성된 게시글만 조회
 select id, title, created_at
 from post
+where created_at >= curdate();
+
+-- 최근 7일 이내에 가입한 회원 조회
+select id, name, created_at, curdate(), date_sub(curdate(), interval 7 day) as before_7days
+from member
+-- (현재시간에서(), 7일을 뺴라)
+where created_at >= date_sub(curdate(), interval 7 day);
+
+-- 가입한지 1개월이 지난 회원 조회
+select *, date_sub(curdate(), interval 1 month) as before_1month
+from member
+where created_at < date_sub(curdate(), interval 1 month);
+
+-- 가입한지 35일 12시간이 지난 회원 조회
+select *, date_sub(curdate(), interval '33 12' day_hour) as before_1month_day
+from member
+where created_at < date_sub(curdate(), interval '34 12' day_hour);
+
+-- 각 회원의 가입 경과일수 조회
+select name, created_at, datediff(curdate(), created_at ) as days_since_join
+from member;
+
+-- 모든 회원 수 조회
+select count(*)
+from member;
+
+-- 모든 게시글 수 조회
+select count(*)
+from post;
+
+-- id=3 인 회원의 총 게시글 수 조회
+select member_id, view_count, count(*) as total_count
+from post
+where member_id=3;
+
+-- id=3인 회원의 모든 게시글의 조회수 조회
+select member_id, count(*) as total_count
+from post
+where member_id=3;
+
+-- id=3인 회원의 모든 게시글의 총 조회수
+select member_id, count(*) as total_counts, sum(view_count) as total_views, avg(view_count) as avg_views, min(view_count) as min_views, max(view_count) as max_views
+-- , title
+from post
+where member_id=3;
+
+select title
+from post
+where member_id = 3;
+
+-- 전화번호가 null인 회원은 '미등록'으로 표시하여 조회
+select name, ifnull(phone, '미등록') as phone
+from member;
+
+-- 전화번호가 null이면 이메일을, 이메일도 null이면 '연락처 없음'으로 조회
+select name, ifnull(phone, ifnull(email, '연락처 없음')) as contact
+from member;
+select name, coalesce(phone, email, ' 연락처 없음') as contact
+from member;
+select name, if(phone is null, if(email is null, "연락처 없음", email), phone) as phone_status
+from member;
+
+-- 전화번호 등록 여부에 따라서 상태를 다르게 표시
+select name, if(phone is null, '연락처 없음', '연락처 있음') as phone_status
+from member;
+
+-- 가입연도가 1년이 넘었으면 '우수 회원', 1달이 넘었으면 '일반회원', 그렇지 않으면 '신규 회원'을 출력
+select 
+	name, 
+	created_at,
+	case 
+		when created_at < date_sub(now(), interval 1 year) then '우수 회원'
+		when created_at < date_sub(now(), interval 1 month) then '일반 회원'
+		else '신규 회원'
+	end as mamber_grade
+from member;
+
+

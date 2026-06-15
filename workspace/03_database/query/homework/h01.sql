@@ -6,6 +6,12 @@ ALTER TABLE post ADD view_count int NOT null default 0;
 
 -- 2. post 테이블에 샘플 게시글 20개를 추가하세요.
 -- 조회수와 작성일은 기본값(CURRENT_TIMESTAMP) 대신 각각 다른 값으로 직접 입력하세요.
+INSERT INTO post (member_id, title, content, created_at, view_count)  VALUES (5, '첫 번째 게시글', '샘플1', '2026-06-03 09:15:16', 7);
+INSERT INTO post (member_id, title, content, created_at, view_count)  VALUES (4, '두 번째 게시글', '샘플2', '2026-06-04 13:21:15', 10);
+INSERT INTO post (member_id, title, content, created_at, view_count)  VALUES (4, '세 번째 게시글', '샘플3', '2026-06-08 09:33:48', 1);
+INSERT INTO post (member_id, title, content, created_at, view_count)  VALUES (4, '네 번째 게시글', '샘플4', '2026-06-09 14:21:30', 9);
+INSERT INTO post (member_id, title, content, created_at, view_count)  VALUES (2, '다섯 번째 게시글', '샘플5', '2026-06-09 15:01:54', 15);
+
 INSERT INTO post (member_id, title, content, created_at, view_count)  VALUES (4, '여섯 번째 게시글', '데이터베이스 기초.', '2026-06-11 09:31:14', 11);
 INSERT INTO post (member_id, title, content, created_at, view_count)  VALUES (4, '여섯 번째 게시글', 'Java 기초.', '2026-05-20 11:20:59', 8);
 INSERT INTO post (member_id, title, content, created_at, view_count)  VALUES (1, '여덟 번째 게시글', '연산자, if문, if-else문', '2026-05-21 10:13:58', 6);
@@ -28,6 +34,13 @@ INSERT INTO post (member_id, title, content, created_at, view_count)  VALUES (2,
 
 -- 3. reply 테이블에 샘플 댓글 30개를 추가하세요.(작성일은 기본값 대신 각각 다른 값으로 직접 입력하세요.)
 -- 작성일은 기본값(CURRENT_TIMESTAMP) 대신 각각 다른 값으로 직접 입력하세요.
+
+INSERT INTO reply (post_id, member_id, content, created_at)  VALUES (17, 2, '샘플 댓글 1', '2026-06-04 15:49:02');
+INSERT INTO reply (post_id, member_id, content, created_at)  VALUES (14, 3, '샘플 댓글 2', '2026-06-01 21:09:51');
+INSERT INTO reply (post_id, member_id, content, created_at)  VALUES (6, 1, '샘플 댓글 3', '2026-05-29 12:00:00');
+INSERT INTO reply (post_id, member_id, content, created_at)  VALUES (6, 3, '샘플 댓글 4', '2026-05-29 13:13:13');
+INSERT INTO reply (post_id, member_id, content, created_at)  VALUES (7, 1, '샘플 댓글 5', '2026-05-20 21:20:59');
+
 INSERT INTO reply (post_id, member_id, content, created_at)  VALUES (6, 2, '주요 데이터 타입엔 어떤 것이 있나요?', '2026-06-11 19:31:14');
 INSERT INTO reply (post_id, member_id, content, created_at)  VALUES (6, 3, '데이터베이스를 실수로 삭제하는 일이 없어야겠네요.', '2026-06-11 11:01:24');
 INSERT INTO reply (post_id, member_id, content, created_at)  VALUES (11, 1, '배열은 선언과 동시에 초기화가 가능하네요', '2026-05-27 17:59:21');
@@ -62,12 +75,12 @@ INSERT INTO reply (post_id, member_id, content, created_at)  VALUES (6, 1, '샘�
 
 
 -- 4. post 테이블에서 조회수(view_count)가 10회 이상인 게시글의 제목, 조회수를 조회하세요.
-SELECT id, title, view_count
+SELECT title, view_count
     FROM post
     WHERE view_count >= 10;	-- ~ 이상 ~ 이하이면 결과가 나옴
 
 -- 5. post 테이블에서 2번 회원(member_id = 2)이 작성한 모든 게시글의 작성자, 제목, 작성일을 최신순(작성일 내림차순)으로 조회하세요.
-SELECT id, title, member_id, created_at 
+SELECT member_id, title, created_at 
     FROM post
     WHERE member_id IN (2)
 	order by created_at desc;
@@ -81,15 +94,15 @@ SELECT id, title, content, created_at
 -- 7. reply 테이블에서 3번 게시글(post_id = 3)에 달린 모든 댓글의 게시글 id, 본문, 작성일을 오래된 순(작성일 오름차순)으로 조회하세요.
 select * from post where id = 3; 
 
-select member_id , title, created_at
-	from post
-	order by member_id asc, title asc, created_at asc
+select post_id , content, created_at
+	from reply
+	order by post_id asc, content asc, created_at asc
 
 
 -- 8. 1페이지당 5개씩 게시글 목록을 보여줄 때 조회수(view_count)가 높은 순서대로 정렬하고 3페이지 게시글 목록의 id, 제목, 조회수를 조회하세요.
 SELECT id, title, view_count
     FROM post
-    ORDER BY view_count asc
-    LIMIT 5, 3;
+    ORDER BY view_count desc
+    LIMIT 10, 5;
 
 -- 과제가 완료되면 본인의 github 레포지토리에 push 하세요.
