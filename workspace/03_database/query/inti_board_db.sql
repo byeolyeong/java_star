@@ -1,10 +1,8 @@
--- (foreign key와 연관되있기때문에 삭제할때 테이블을 생성한 순서의 역순으로 삭제를 진행해야함.)
-DROP table if exists  reply;
-DROP table if exists  post;	
-drop table if exists member;
+DROP TABLE IF EXISTS reply;
+DROP TABLE IF EXISTS post;
+DROP TABLE IF EXISTS member;
 
-
--- DROP DATABASE if exists board_db;
+-- DROP DATABASE IF EXISTS board_db;
 -- CREATE DATABASE board_db;
 
 CREATE TABLE member (
@@ -13,7 +11,9 @@ CREATE TABLE member (
     password VARCHAR(255) NOT NULL,
     name VARCHAR(50) NOT NULL,
     phone CHAR(12),
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    recommender_id INT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (recommender_id) REFERENCES member(id) ON DELETE SET NULL
 );
 
 CREATE TABLE post (
@@ -32,27 +32,30 @@ CREATE TABLE reply (
     content TEXT NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (post_id) REFERENCES post(id) ON DELETE CASCADE,
-    FOREIGN KEY (member_id) REFERENCES member(id) ON DELETE cascade
+    FOREIGN KEY (member_id) REFERENCES member(id) ON DELETE CASCADE
 );
 
-INSERT INTO member VALUES (NULL, 'haru@gmail.com', 'pwd123', '하루', '01011112222', DEFAULT);
-INSERT INTO member VALUES (NULL, 'haru2@gmail.com', 'pwd123', '하루2', NULL, '2025-05-10 12:13:45');
-INSERT INTO member (email, password, name, created_at) VALUES ('namu@gmail.com', 'pwd789', '나무', '2026-04-29 13:34:32');
-INSERT INTO member (email, password, name, phone, created_at) VALUES
-    ('harong@gmail.com', 'pwd012', '하롱이', '01022223333', '2026-05-29 13:34:32'),
-    ('yong@gmail.com', 'pwd456', '용쌤', '0103334444', '2026-06-05 14:34:12');
+INSERT INTO member VALUES (NULL, 'haru@gmail.com', 'pwd123', '하루', '01011112222', NULL, DEFAULT);
+INSERT INTO member VALUES (NULL, 'haru2@gmail.com', 'pwd123', '하루2', NULL, 1, '2025-05-10 12:13:45');
+INSERT INTO member (email, password, name, recommender_id, created_at) VALUES ('namu@gmail.com', 'pwd789', '나무', NULL, '2026-04-29 13:34:32');
+INSERT INTO member (email, password, name, phone, recommender_id, created_at) VALUES
+    ('harong@gmail.com', 'pwd012', '하롱이', '01022223333', 1, '2026-05-29 13:34:32'),
+    ('yong@gmail.com', 'pwd456', '용쌤', '0103334444', 2, '2026-06-05 14:34:12'),
+	('gd@gmail.com', 'pwd456', 'GD쌤', '0102223333', NULL, '2026-06-05 14:34:12');
 
-INSERT INTO post (member_id, title, content, created_at)  VALUES (1, '첫 번째 게시글', '안녕하세요. 반갑습니다.', '2026-05-23 12:33:54');
-INSERT INTO post (member_id, title, content, created_at)  VALUES (2, '질문 있습니다', '데이터베이스 기초에 대한 질문입니다.', '2026-05-24 01:42:12');
-INSERT INTO post (member_id, title, content, created_at)  VALUES (1, '두 번째 게시글', '오늘 날씨가 아주 좋습니다.', '2026-05-27 07:43:59');
-INSERT INTO post (member_id, title, content, created_at)  VALUES (2, 'MySQL 설치 오류 해결방법', '설치 중 Configurator 단계에서 오류가 날 때 대처법 공유합니다.', '2026-05-29 04:22:07');
-INSERT INTO post (member_id, title, content, created_at)  VALUES (3, '자기 소개', '안녕하세요 하롱이입니다.', '2026-06-12 11:31:27');
+INSERT INTO post (member_id, title, content, created_at) VALUES (1, '첫 번째 게시글', '안녕하세요. 반갑습니다.', '2026-05-23 12:33:54');
+INSERT INTO post (member_id, title, content, created_at) VALUES (2, '질문 있습니다', '데이터베이스 기초에 대한 질문입니다.', '2026-05-26 11:33:54');
+INSERT INTO post (member_id, title, content, created_at) VALUES (1, '두 번째 게시글', '오늘 날씨가 아주 좋습니다.', '2026-05-27 12:22:54');
+INSERT INTO post (member_id, title, content, created_at) VALUES (2, 'MySQL 설치 오류 해결방법', '설치 중 Configurator 단계에서 오류가 날 때 대처법 공유합니다.', '2026-05-29 12:33:12');
+INSERT INTO post (member_id, title, content, created_at) VALUES (3, '자기 소개', '안녕하세요 하롱이입니다.', '2026-06-12 12:22:54');
 
-INSERT INTO reply (post_id, member_id, content)  VALUES (1, 2, '환영합니다!');
-INSERT INTO reply (post_id, member_id, content)  VALUES (1, 3, '반가워요~');
-INSERT INTO reply (post_id, member_id, content)  VALUES (2, 1, '어떤 부분이 궁금하신가요?');
-INSERT INTO reply (post_id, member_id, content)  VALUES (4, 3, '정말 유용한 정보네요. 감사합니다!');
-INSERT INTO reply (post_id, member_id, content)  VALUES (4, 1, '저도 이 방법으로 해결했습니다.');
+INSERT INTO reply (post_id, member_id, content) VALUES (1, 2, '환영합니다!');
+INSERT INTO reply (post_id, member_id, content) VALUES (1, 3, '반가워요~');
+INSERT INTO reply (post_id, member_id, content) VALUES (2, 1, '어떤 부분이 궁금하신가요?');
+INSERT INTO reply (post_id, member_id, content) VALUES (4, 3, '정말 유용한 정보네요. 감사합니다!');
+INSERT INTO reply (post_id, member_id, content) VALUES (4, 1, '저도 이 방법으로 해결했습니다.');
+
+
 
 -- 1. post 테이블에 조회수(view_count) 컬럼을 추가하세요.(4바이트 정수형, NOT NULL, 기본값 0)
 ALTER TABLE post ADD COLUMN view_count INT NOT NULL DEFAULT 0;
@@ -78,8 +81,8 @@ INSERT INTO post (member_id, title, content, created_at, view_count) VALUES
   (1, '여섯 번째 게시글', '자바 조건문 switch-case 문 실습을 하고 있습니다.', '2026-06-13 06:00:00', 7),
   (2, '안녕 테스트 글', '이 본문에는 안녕이라는 단어가 들어갑니다. 반갑습니다.', '2026-06-13 07:00:00', 13),
   (3, '추상 클래스와 인터페이스', '둘 다 추상 메서드를 가지는데 어떤 상황에 구분해서 쓸까요?', '2026-06-13 08:00:00', 25),
-  (4, '자바 static 키워드 정리', '클래스 멤버와 인스턴스 멤버의 차이를 정리했습니다.', '2026-06-13 08:15:00', 6),
-  (5, '자바 형변환(Casting) 복습', '기본 타입과 참조 타입의 형변환 규칙을 정리해 봅니다.', '2026-06-13 08:30:00', 33);
+  (NULL, '자바 static 키워드 정리', '클래스 멤버와 인스턴스 멤버의 차이를 정리했습니다.', DEFAULT, 6),
+  (NULL, '자바 형변환(Casting) 복습', '기본 타입과 참조 타입의 형변환 규칙을 정리해 봅니다.', DEFAULT, 33);
 
 -- 3. reply 테이블에 샘플 댓글 30개를 추가하세요.(작성일은 기본값 대신 각각 다른 값으로 직접 입력하세요.)
 -- 작성일은 기본값(CURRENT_TIMESTAMP) 대신 각각 다른 값으로 직접 입력하세요.
@@ -114,3 +117,24 @@ INSERT INTO reply (post_id, member_id, content, created_at) VALUES
   (3, 3, '유익한 내용이네요.', '2026-05-27 15:00:00'),
   (3, 5, '저도 참고해야겠습니다.', '2026-05-27 16:00:00'),
   (3, 1, '댓글 주신 분들 모두 감사드립니다.', '2026-05-27 17:00:00');
+
+
+-- 사용자 삭제
+DROP USER IF EXISTS 'user1'@'localhost';
+
+-- 로컬 호스트 전용 계정 생성
+CREATE USER 'user1'@'localhost' IDENTIFIED BY '1111';
+
+
+-- 개발자용 권한 그룹 생성
+DROP ROLE IF EXISTS 'developer';
+CREATE ROLE 'developer';
+
+-- 개발자 그룹에 board_db의 모든 테이블에 대한 CRUD 권한 부여
+GRANT SELECT, INSERT, UPDATE, DELETE ON board_db.* TO 'developer';
+
+-- user1에게 개발자 그룹 권한 부여
+GRANT 'developer' TO 'user1'@'localhost';
+
+-- user1 로그인 시 developer 권한 그룹이 기본으로 활성화되도록 설정
+SET DEFAULT ROLE 'developer' TO 'user1'@'localhost';
