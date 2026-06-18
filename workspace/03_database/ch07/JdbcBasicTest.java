@@ -138,5 +138,4 @@ public class JdbcBasicTest {
             try{ if(conn != null) conn.close(); } catch (Exception e){ }
         }
     }
-
 }
