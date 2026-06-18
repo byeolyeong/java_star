@@ -1,34 +1,44 @@
 package ch07;
 
-import java.sql.*;
-import java.util.ResourceBundle;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 
-public class JdbcPostPreparedTest {
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
-//    private static final String DB_URL = "jdbc:mysql://localhost:3306/board_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true";
-//    private static final String DB_URL = "jdbc:mysql://dain2.iptime.org:3306/board_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true";
-//    private static final String DB_USER = "user1";
-//    private static final String DB_PASSWORD = "1111";
+public class ConnectionPoolTest {
 
-    private static final ResourceBundle bundle = ResourceBundle.getBundle("hikari");
-    private static final String DB_URL = bundle.getString("jdbcUrl");
-    private static final String DB_USER = bundle.getString("username");
-    private static final String DB_PASSWORD = bundle.getString("password");
+    private static DataSource datasource;
+
+    // 필드부분에 static 블럭을 만들 수 있음
+    // 프로그램이 실행될 때, 최초로 한 번만 실행됨.
+    static {
+        HikariConfig config = new HikariConfig("/hikari.properties");
+        datasource = new HikariDataSource(config);
+    }
 
     public static void main(String[] args){
-//        findAll();
-//        insert(2, "2번이 등록한 게시글", "안녕하세요. 자바 공부 해요.");
-//        findById(10);
-//        update(10, "수정된 10번 게시글", "수정했어요");
-//        findAll();
-//        delete(10);
-//
-//        deleteAll(2);
-//        findAll("자바");
+        findAll();
+        insert(2, "2번이 등록한 게시글", "안녕하세요. 자바 공부 해요.");
+        findById(10);
+        update(10, "수정된 10번 게시글", "수정했어요");
+        findAll();
+        delete(10);
+
+        deleteAll(2);
+        findAll("자바");
 
         login("haru@gmail.com", "123");
         login("haru@gmail.com", "pwd123");
         login("haru@gmail.com' OR '1' = '1", "sdfsadfasdf");
+
+        // 메인 메서드의 마지막 풀을 명시적으로 종료
+        if(datasource != null){
+            ((HikariDataSource)datasource).close(); // 명시적 형변환
+        }
     }
 
     // 로그인
@@ -41,7 +51,7 @@ public class JdbcPostPreparedTest {
 
         try{ // 플랜 A
             // 1. 데이터베이스 연결(Connection 객체 생성)
-            conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            conn = datasource.getConnection();
 
             // 2. SQL 실행 객체 생성(Statement 객체 생성)
             pstmt = conn.prepareStatement(sql);
@@ -83,8 +93,7 @@ public class JdbcPostPreparedTest {
 
         try{ // 플랜 A
             // 1. 데이터베이스 연결(Connection 객체 생성)
-            conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-
+            conn = datasource.getConnection();
             // 2. SQL 실행 객체 생성(Statement 객체 생성)
             pstmt = conn.prepareStatement(sql);
 
@@ -94,7 +103,7 @@ public class JdbcPostPreparedTest {
             pstmt.setString(3, content);
             int affectedRows = pstmt.executeUpdate();
 
-            System.out.println("게시글 등록 완료: " + affectedRows + "건 반영됨.");
+//            System.out.println("게시글 등록 완료: " + affectedRows + "건 반영됨.");
 
         }catch(Exception e){ // 플랜 B
             System.out.println("에러 발생: " + e.getMessage());
@@ -127,7 +136,7 @@ public class JdbcPostPreparedTest {
 
         try{ // 플랜 A
             // 1. 데이터베이스 연결(Connection 객체 생성)
-            conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            conn = datasource.getConnection();
 
             // 2. SQL 실행 객체 생성(Statement 객체 생성)
             pstmt = conn.prepareStatement(sql);
@@ -170,7 +179,7 @@ public class JdbcPostPreparedTest {
 
         try{ // 플랜 A
             // 1. 데이터베이스 연결(Connection 객체 생성)
-            conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            conn = datasource.getConnection();
 
             // 2. SQL 실행 객체 생성(Statement 객체 생성)
             pstmt = conn.prepareStatement(sql);
@@ -209,7 +218,7 @@ public class JdbcPostPreparedTest {
 
         try{ // 플랜 A
             // 1. 데이터베이스 연결(Connection 객체 생성)
-            conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            conn = datasource.getConnection();
 
             // 2. SQL 실행 객체 생성(Statement 객체 생성)
             pstmt = conn.prepareStatement(sql);
@@ -240,7 +249,7 @@ public class JdbcPostPreparedTest {
 
         try{ // 플랜 A
             // 1. 데이터베이스 연결(Connection 객체 생성)
-            conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            conn = datasource.getConnection();
 
             // 2. SQL 실행 객체 생성(Statement 객체 생성)
             pstmt = conn.prepareStatement(sql);
@@ -269,7 +278,7 @@ public class JdbcPostPreparedTest {
 
         try{ // 플랜 A
             // 1. 데이터베이스 연결(Connection 객체 생성)
-            conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            conn = datasource.getConnection();
 
             // 2. SQL 실행 객체 생성(Statement 객체 생성)
             pstmt = conn.prepareStatement(sql);
