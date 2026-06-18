@@ -1,11 +1,8 @@
 package ch07;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;  // *를 하게 되면 모든걸 임포스트 해줌.
 
-public class JdbcPostTestTeach {
+public class JdbcPostPreparedTest {
 
     private static final String DB_URL = "jdbc:mysql://localhost:3306/board_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true";
     private static final String DB_USER = "user1";
@@ -20,25 +17,36 @@ public class JdbcPostTestTeach {
         delete(10);
 
         deleteAll(2);
-        findAll();
+        findAll("자바");
     }
 
     // 등록(C)
     static void insert(int memberId, String title, String content){
-        String sql = "INSERT INTO post (member_id, title, content) VALUES ("+memberId+", '"+title+"', '"+content+"')";
+        String sql = "INSERT INTO post (member_id, title, content) VALUES (?, ?, ?)";
 
         Connection conn = null;
-        Statement stmt = null;
+        PreparedStatement pstmt = null;
+        // preparedStatement 를 권장함.
+        // 코드가 깔끔해짐. / 대량의 데이터를 넣을때 좋음 / 보안도 좋음
 
         try{ // 플랜 A
             // 1. 데이터베이스 연결(Connection 객체 생성)
             conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 
             // 2. SQL 실행 객체 생성(Statement 객체 생성)
-            stmt = conn.createStatement();
+            // prepareStatement 를 사용하면 sql의 위치가 변경됨.  .
+            pstmt = conn.prepareStatement(sql);
 
             // 3. SQL 실행
-            int affectedRows = stmt.executeUpdate(sql);
+            pstmt.setInt(1, memberId);
+            pstmt.setString(2, title);
+            pstmt.setString(3, content);
+            int affectedRows = pstmt.executeUpdate();
+
+//            pstmt.setInt(1, 2);
+//            pstmt.setString(2, "안녕");
+//            pstmt.setString(3, "반가워");
+//            int affectedRows = pstmt.executeUpdate();
 
             System.out.println("게시글 등록 완료: " + affectedRows + "건 반영됨.");
 
@@ -47,17 +55,25 @@ public class JdbcPostTestTeach {
             e.printStackTrace();
         }finally{
             // 5. 생성된 리소스를 생성의 역순으로 해제
-            try{ if(stmt != null) stmt.close(); } catch (Exception e){ }
+            try{ if(pstmt != null) pstmt.close(); } catch (Exception e){ }
             try{ if(conn != null) conn.close(); } catch (Exception e){ }
         }
     }
 
-    // 목록 조회(R)
-    static void findAll(){
+    // 게시글 전체 목록(모든 게시글) 조회
+    static void findAll() {
+        findAll("");
+    }
+    // 게시글 검색 목록 조회(R)
+    static void findAll(String keyword){
         String sql = "SELECT id, title, view_count viewCount, created_at AS createdAt FROM post";
 
+        boolean hasKeyword = keyword != null && keyword.equals("");
+        if(hasKeyword){
+            sql += " WHERE title LIKE  ? OR content LIKE ? ";
+        }
         Connection conn = null;
-        Statement stmt = null;
+        PreparedStatement pstmt = null;
         ResultSet rs = null;
 
         try{ // 플랜 A
@@ -65,10 +81,14 @@ public class JdbcPostTestTeach {
             conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 
             // 2. SQL 실행 객체 생성(Statement 객체 생성)
-            stmt = conn.createStatement();
+            pstmt = conn.prepareStatement(sql);
 
             // 3. SQL 실행
-            rs = stmt.executeQuery(sql);
+            if(hasKeyword){
+                pstmt.setString(1,"&" + keyword +"%");
+                pstmt.setString(2,"%" + keyword + "%");
+            }
+            rs = pstmt.executeQuery();
 
             // 4. 결과 처리(ResultSet 사용)
             while(rs.next()){
@@ -86,17 +106,17 @@ public class JdbcPostTestTeach {
         }finally{
             // 5. 생성된 리소스를 생성의 역순으로 해제
             try{ if(rs != null) rs.close(); } catch (Exception e){ }
-            try{ if(stmt != null) stmt.close(); } catch (Exception e){ }
+            try{ if(pstmt != null) pstmt.close(); } catch (Exception e){ }
             try{ if(conn != null) conn.close(); } catch (Exception e){ }
         }
     }
 
     // 한건 조회(R)
     static void findById(int id){
-        String sql = "SELECT id, title, content, view_count viewCount, created_at AS createdAt FROM post WHERE id = " + id;
+        String sql = "SELECT id, title, content, view_count viewCount, created_at AS createdAt FROM post WHERE id = + ?";
 
         Connection conn = null;
-        Statement stmt = null;
+        PreparedStatement pstmt = null;
         ResultSet rs = null;
 
         try{ // 플랜 A
@@ -104,10 +124,11 @@ public class JdbcPostTestTeach {
             conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 
             // 2. SQL 실행 객체 생성(Statement 객체 생성)
-            stmt = conn.createStatement();
+            pstmt = conn.prepareStatement(sql);
 
             // 3. SQL 실행
-            rs = stmt.executeQuery(sql);
+            pstmt.setInt(1, id);
+            rs = pstmt.executeQuery();
 
             // 4. 결과 처리(ResultSet 사용)
             while(rs.next()){
@@ -125,27 +146,30 @@ public class JdbcPostTestTeach {
         }finally{
             // 5. 생성된 리소스를 생성의 역순으로 해제
             try{ if(rs != null) rs.close(); } catch (Exception e){ }
-            try{ if(stmt != null) stmt.close(); } catch (Exception e){ }
+            try{ if(pstmt != null) pstmt.close(); } catch (Exception e){ }
             try{ if(conn != null) conn.close(); } catch (Exception e){ }
         }
     }
 
     // 수정(U)
     static void update(int id, String title, String content){
-        String sql = "UPDATE post SET title = '"+title+"', content = '"+content+"' WHERE id = " + id;
+        String sql = "UPDATE post SET title = ?, content = ? WHERE id = ?";
 
         Connection conn = null;
-        Statement stmt = null;
+        PreparedStatement pstmt = null;
 
         try{ // 플랜 A
             // 1. 데이터베이스 연결(Connection 객체 생성)
             conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 
             // 2. SQL 실행 객체 생성(Statement 객체 생성)
-            stmt = conn.createStatement();
+            pstmt = conn.prepareStatement(sql);
 
             // 3. SQL 실행
-            int affectedRows = stmt.executeUpdate(sql);
+            pstmt.setString(1, title);
+            pstmt.setString(2, content);
+            pstmt.setInt(3, id);
+            int affectedRows = pstmt.executeUpdate();
 
             System.out.println("게시글 수정 완료: " + affectedRows + "건 반영됨.");
 
@@ -154,26 +178,27 @@ public class JdbcPostTestTeach {
             e.printStackTrace();
         }finally{
             // 5. 생성된 리소스를 생성의 역순으로 해제
-            try{ if(stmt != null) stmt.close(); } catch (Exception e){ }
+            try{ if(pstmt != null) pstmt.close(); } catch (Exception e){ }
             try{ if(conn != null) conn.close(); } catch (Exception e){ }
         }
     }
 
     // 지정한 id의 게시글 삭제(D)
     static void delete(int id){
-        String sql = "DELETE FROM post WHERE id=" + id;
+        String sql = "DELETE FROM post WHERE id= ? ";
         Connection conn = null;
-        Statement stmt = null;
+        PreparedStatement pstmt = null;
 
         try{ // 플랜 A
             // 1. 데이터베이스 연결(Connection 객체 생성)
             conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 
             // 2. SQL 실행 객체 생성(Statement 객체 생성)
-            stmt = conn.createStatement();
+            pstmt = conn.prepareStatement(sql);
 
             // 3. SQL 실행
-            int affectedRows = stmt.executeUpdate(sql);
+            pstmt.setInt(1, id);
+            int affectedRows = pstmt.executeUpdate();
 
             System.out.println(id + "번 게시글 삭제 완료: " + affectedRows + "건 반영됨.");
 
@@ -182,26 +207,27 @@ public class JdbcPostTestTeach {
             e.printStackTrace();
         }finally{
             // 5. 생성된 리소스를 생성의 역순으로 해제
-            try{ if(stmt != null) stmt.close(); } catch (Exception e){ }
+            try{ if(pstmt != null) pstmt.close(); } catch (Exception e){ }
             try{ if(conn != null) conn.close(); } catch (Exception e){ }
         }
     }
 
     // 지정한 회원의 모든 게시글 삭제(D)
     static void deleteAll(int memberId){
-        String sql = "DELETE FROM post WHERE member_id=" + memberId;
+        String sql = "DELETE FROM post WHERE member_id=?";
         Connection conn = null;
-        Statement stmt = null;
+        PreparedStatement pstmt = null;
 
         try{ // 플랜 A
             // 1. 데이터베이스 연결(Connection 객체 생성)
             conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 
             // 2. SQL 실행 객체 생성(Statement 객체 생성)
-            stmt = conn.createStatement();
+            pstmt = conn.prepareStatement(sql);
 
             // 3. SQL 실행
-            int affectedRows = stmt.executeUpdate(sql);
+            pstmt.setInt(1,memberId);
+            int affectedRows = pstmt.executeUpdate();
 
             System.out.println(memberId + "번 회원의 모든 게시글 삭제 완료: " + affectedRows + "건 반영됨.");
 
@@ -210,7 +236,7 @@ public class JdbcPostTestTeach {
             e.printStackTrace();
         }finally{
             // 5. 생성된 리소스를 생성의 역순으로 해제
-            try{ if(stmt != null) stmt.close(); } catch (Exception e){ }
+            try{ if(pstmt != null) pstmt.close(); } catch (Exception e){ }
             try{ if(conn != null) conn.close(); } catch (Exception e){ }
         }
     }
