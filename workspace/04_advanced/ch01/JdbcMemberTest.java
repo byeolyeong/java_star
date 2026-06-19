@@ -28,7 +28,7 @@ public class JdbcMemberTest {
         deleteMember(1);
         selectAllMembers(); // 회원 목록 조회
 
-        login("haru@gmail.com", "123");
+//        login("haru@gmail.com", "123");
 //        login("haru@gmail.com", "pwd123");
 //        login("haru@gmail.com' OR '1' = '1", "sdfsadfasdf");
     }
