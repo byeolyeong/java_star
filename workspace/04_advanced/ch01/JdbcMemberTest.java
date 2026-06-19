@@ -34,7 +34,12 @@ public class JdbcMemberTest {
     }
 
     // 로그인
-    public static void login(String email, String password){
+    public static void login(String email, String password) throws LoginFailException {
+
+        if(email == null || email.isBlank() || password == null || password.isBlank()){
+            throw new LoginFailException("email과 password를 확인하세요.");
+        }
+
         String sql = "SELECT * FROM member WHERE email = '"+email+"' AND password = '"+password+"'";
         System.out.println("로그인 쿼리: " + sql);
 
@@ -57,7 +62,7 @@ public class JdbcMemberTest {
 
         }catch(Exception e) { // 플랜 B
             System.out.println("에러 발생: " + e.getMessage());
-            e.printStackTrace();
+             ;
         }
     }
 
