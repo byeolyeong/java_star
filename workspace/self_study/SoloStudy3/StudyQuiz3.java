@@ -13,8 +13,8 @@ public class StudyQuiz3 {
         // 030708-4567890 인 경우 030708-4 까지 출력
 
         String s1 = "901231-1234567";   // 주민등록번호 13자리
-        String s2 = "030708-4567890";
         System.out.println(s1.substring(s1.indexOf("9"),s1.lastIndexOf("2")));
+        String s2 = "030708-4567890";
         System.out.println(s2.substring(s2.indexOf("0"),s2.indexOf("5")));
 
         // substring(처음, 끝) : 시작위치를 포함하고, 끝 위치 이전의 문자까지만 출력하는 메서드

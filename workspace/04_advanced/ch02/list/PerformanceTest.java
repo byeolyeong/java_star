@@ -8,7 +8,7 @@ public class PerformanceTest {
         MyLinkedList list = new MyLinkedList();
 
         long start = System.currentTimeMillis();
-        addFirst(list, times);
+//        addFirst(list, times);
 //        addLast(list, times);
         System.out.println("저장된 수 : " + list.size());
         long end = System.currentTimeMillis();
