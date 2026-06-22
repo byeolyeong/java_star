@@ -1,4 +1,4 @@
-package ch01.ch02;
+package ch02;
 
 import java.util.*;
 
