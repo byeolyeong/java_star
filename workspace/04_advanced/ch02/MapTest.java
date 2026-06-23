@@ -31,7 +31,6 @@ public class MapTest {
     void printFruits(Map<String, String> fruits){
         System.out.println("월요일에 먹을 과일 : " + fruits.get("월"));
         System.out.println("월요일에 먹을 과일 : " + fruits.get("수"));
-        System.out.println("월요일에 먹을 과일 : " + fruits.get("화"));
 
         System.out.println("요일별 모든 과일 출력");
 //        for(String key : fruits.keySet()){
