@@ -1,6 +1,6 @@
 package ch02.list;
 
-public class MyLinkedList {
+public class MyLinkedList implements  MyList{
 //    inner 클래스 생성
     private class Node {
         /**
@@ -35,7 +35,7 @@ public class MyLinkedList {
      * 데이터를 첫번째 요소로 추가한다.
      * @param data 추가할 요소
      */
-    public void appendFirst(Object data){
+    public void addFirst(Object data){
         Node node = new Node(data);
         // 헤더가 가르키고 있는 첫번째 노드의 주소를 삽입한 노드의 nextNode로 지정
         node.nextNode = header.nextNode;
@@ -49,9 +49,9 @@ public class MyLinkedList {
      * @param index data가 삽입될 위치
      * @param data 삽입할 data
      */
-    public void appendTo(int index, Object data){
+    public void add(int index, Object data){
         if(index == 0){
-            appendFirst(data);
+            addFirst(data);
         } else {
             Node newNode = new Node(data); // 추가할 새로운 노드
             Node pNode = getNode(index-1);
@@ -66,8 +66,8 @@ public class MyLinkedList {
      * data를 리스트의 마지막에 추가한다.
      * @param data  추가할 데이터
      */
-    public void appendTo(Object data){
-        appendTo(size, data);
+    public void add(Object data){
+        add(size, data);
     }
 
     /**

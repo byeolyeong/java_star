@@ -10,7 +10,7 @@ package ch02.list;
  *
  *  이러한 불편한 점을 개선하여 배열을 쓰기 쉽게 만드는 클래스
  */
-public class MyArray {
+public class MyArray implements MyList{
     // 한 줄 주석
 
     /**
@@ -43,8 +43,8 @@ public class MyArray {
      * 배열의 마지막 위치에 지정한 elem를 추가한다.
      * @param elem  배열에 추가할 요소
      */
-    public void append(Object elem){
-        append(count, elem);
+    public void add(Object elem){
+        add(count, elem);
     }
 
     /**
@@ -52,7 +52,7 @@ public class MyArray {
      * @param index 삽입할 위치
      * @param elem 삽일할 요소
      */
-    public void append(int index, Object elem){
+    public void add(int index, Object elem){
         if(index < 0) {
             throw new ArrayIndexOutOfBoundsException(index + " < 0");
         } else if(index > count) {
@@ -77,7 +77,7 @@ public class MyArray {
      * 지정한 index의 요소를 삭제한다.
      * @param index
      */
-    public void delete(int index){
+    public void remove(int index){
         if(index >= count){
             throw new ArrayIndexOutOfBoundsException(index + " >= " + count);   // throw가 실행되는 순간 나머지 코드는 실행이 안됨
         } else if(index < 0) {
@@ -97,7 +97,7 @@ public class MyArray {
      * @param index 반환할 데이터의 위치
      * @return 지정한 위치의 데이터
      */
-    public Object getElem(int index){   // 정삭적이면 elem을 하나 return하고, 비정상적이면 throw를 실행한다.
+    public Object get(int index){   // 정삭적이면 elem을 하나 return하고, 비정상적이면 throw를 실행한다.
         if(index >= count){
             throw new ArrayIndexOutOfBoundsException(index + " >= " + count);   // throw가 실행되는 순간 나머지 코드는 실행이 안됨
         } else if(index < 0) {
