@@ -44,8 +44,10 @@ public class CollectionTest {
 //        TreeSet<String> fruits = new TreeSet<>();
 
         // 저장한 순서를 유지(중복은 하나만 표현)
-        LinkedHashSet<String> fruits = new LinkedHashSet<>();
+//        LinkedHashSet<String> fruits = new LinkedHashSet<>();
 
+        Set<String> fruits = new LinkedHashSet<>();
+;
         fruits.add("바나나"); // LinkedList 전용 메서드
         fruits.add("사과");
         fruits.add("오렌지");

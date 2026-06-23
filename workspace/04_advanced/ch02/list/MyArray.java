@@ -10,7 +10,7 @@ package ch02.list;
  *
  *  이러한 불편한 점을 개선하여 배열을 쓰기 쉽게 만드는 클래스
  */
-public class MyArray implements MyList{
+public class MyArray<T> implements MyList<T>{
     // 한 줄 주석
 
     /**
@@ -28,7 +28,7 @@ public class MyArray implements MyList{
      *  초기 배열의 크기를 10개로 지정한다.
      */
     public MyArray(){
-        this(10);   //
+        this(10);
     }
 
     /**
@@ -36,14 +36,14 @@ public class MyArray implements MyList{
      * @param size  배열의 초기 크기 지정
      */
     public MyArray(int size){
-        data = new Object[size];
+        this.data = new Object[size];
     }
 
     /**
      * 배열의 마지막 위치에 지정한 elem를 추가한다.
      * @param elem  배열에 추가할 요소
      */
-    public void add(Object elem){
+    public void add(T elem){
         add(count, elem);
     }
 
@@ -52,7 +52,7 @@ public class MyArray implements MyList{
      * @param index 삽입할 위치
      * @param elem 삽일할 요소
      */
-    public void add(int index, Object elem){
+    public void add(int index, T elem){
         if(index < 0) {
             throw new ArrayIndexOutOfBoundsException(index + " < 0");
         } else if(index > count) {
@@ -97,13 +97,13 @@ public class MyArray implements MyList{
      * @param index 반환할 데이터의 위치
      * @return 지정한 위치의 데이터
      */
-    public Object get(int index){   // 정삭적이면 elem을 하나 return하고, 비정상적이면 throw를 실행한다.
+    public T get(int index){   // 정삭적이면 elem을 하나 return하고, 비정상적이면 throw를 실행한다.
         if(index >= count){
             throw new ArrayIndexOutOfBoundsException(index + " >= " + count);   // throw가 실행되는 순간 나머지 코드는 실행이 안됨
         } else if(index < 0) {
             throw new ArrayIndexOutOfBoundsException(index + " < 0");
         }
-        return data[index];
+        return (T)data[index];
     }
 
     public int size(){

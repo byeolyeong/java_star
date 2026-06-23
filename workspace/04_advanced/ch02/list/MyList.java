@@ -1,18 +1,18 @@
 package ch02.list;
 
-public interface MyList {
+public interface MyList<T> {
     /**
      * 지정한 데이터를 마지막 요소로 추가한다
      * @param obj 추가할 데이터
      */
-    void add(Object obj);
+    void add(T obj);
 
     /**
      * 지정한 데이터를 인덱스 위치에 삽입한다.
      * @param index 삽입될 위치
      * @param obj 삽입할 데이터
      */
-    void add(int index, Object obj);
+    void add(int index, T obj);
 
     /**
      * 지정한 index의 데이터를 삭제한다
@@ -25,7 +25,7 @@ public interface MyList {
      * @param index 조회할 데이터
      * @return
      */
-    Object get(int index);
+    T get(int index);
 
     /**
      * 데이터의 수를 반환한다
