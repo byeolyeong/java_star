@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script>
+    // JavaScript의 기본 타입은 number, String, boolean임
+
+    let num1 = 10;
+    let num2 = 3.14, num3 = 100;
+    console.log(num1, num2, num3);
+
+
+  // const는 상수로 선언과 동시에 할당해주어야함
+    const str1 = 'to';
+    const str2 = 'JavaScript';
+    const str3 = `Welcome ${str1} ${str2} World!`; // 템플릿 리터럴
+    console.log(str1, str2);
+    console.log(str3);
+
+    // boolean 값을 변수로 쓰고싶을때 let을 사용
+    let b1 = true;
+    let b2 = false;
+    console.log(b1, b2);
+
+    // 객체를 만들고싶을때 { 속성명 : 이름, 속성명2 : 속성값 }
+    // 출력은 console.log(변수명.속성명, 변수명.속성명2)
+    const namu = { name : '나무', age : 9 };
+    console.log(namu.name, name.age)
+    console.log(namu);
+
+    // 배열 리터럴
+    // JavaScript의 배열은 연속적인 배열이 아니기때문에 undefined가 나옴(값이 없을때 나옴)
+    const arr = [10, 20, 30];
+    console.log(arr[0], arr[1], arr[5]);
+
+    // null값은 명확하게 넣어주면 null값이라고 출력되고, 선언만 하고 값을 할당하지 않으면 undefined가 출력됨
+    let nullVal = null; // object 타입
+    let unVal; // undefined 타입
+    console.log(nullVal, unVal);
+  
+    // 변수의 타입이 무엇인지 확인하고싶으면 typeof를 사용해서 알 수 있음
+    console.log(typeof num1, typeof str1, typeof b1, typeof namu, typeof arr, typeof nullVal, typeof unVal);
+  </script>
+</head>
+<body>
+  <h1>05-01 변수 선언과 리터럴</h1>
+</body>
+</html>
