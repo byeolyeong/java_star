@@ -85,12 +85,13 @@
     const writeForm = document.querySelector('#writeForm');
     
     writeForm.addEventListener('submit', function(event) {
+      // 브라우저의 기본 동작(action 주소로 서버에서 요청하는 작업)을 취소
+      event.preventDefault();
       // 2. 제목 검증
       // html 요소 중 id가 'title'인 요소를 찾는다.
       const title = document.querySelector('#title'); 
       if(title.value.trim() === ''){
         alert('제목을 입력하세요.');
-        title.value = '';
         title.focus();
         return;
       }
@@ -99,7 +100,6 @@
       const writer = document.querySelector('#writer'); 
       if(writer.value.trim() === ''){
         alert('이름을 입력하세요.');
-        writer.value = '';
         writer.focus();
         return;
       }
@@ -126,12 +126,12 @@
         title : title.value,
         writer: writer.value,
         category: category.value,
+        visible: document.querySelector('input=[name:"visible"]:checked').value,
         content : content.value
 
       };
       console.log('최종 입력한 게시글 정보', post);
 
-      event.preventDefault();
       alert('게시글 등록 요청이 정상적으로 전송되었습니다.');
     });
 
