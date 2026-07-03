@@ -7,8 +7,8 @@ public class EchoClient {
     void startClient(){
         try(
                 // 서버에 접속 요청 (localhost:50000)
-                Socket s = new Socket("localhost", 50000);
-//                Socket s = new Socket("dain2.iptime.org", 50000);
+//                Socket s = new Socket("localhost", 50000);
+                Socket s = new Socket("dain2.iptime.org", 50000);
 
         ){
             // 키보드에서 줄 단위로 읽기 위한 Stream
