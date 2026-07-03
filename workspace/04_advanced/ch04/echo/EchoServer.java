@@ -21,16 +21,24 @@ public class EchoServer {
             Socket s = ss.accept(); // 블로킹 작업
             System.out.println("클라이언트 : " + s.getInetAddress().getHostAddress()); // 클라이언트의 IP를 꺼내봄
 
+            // 문장 단위로 읽기 위해서 BufferedReader, BufferedWriter를 사용
             // 소켓에서 클라이언트의 메세지를 수신하는 inputStream 생성
-            InputStream in = s.getInputStream();
+            // 2차 스트림을 지정
+            // BufferedReader는 Reader를 반환 받아야하기  때문에 new InputStreamReader(s.getInputStream)) 으로 Reader로 반환시켜주기
+            BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
             // 클라이언트의 메세지를 송신하는 OutputStream 생성
-            OutputStream out = s.getOutputStream();
+            // 2차 스트림 지정
+            // Reader와 같은 이유
+            PrintWriter out = new PrintWriter(new OutputStreamWriter(s.getOutputStream()), true);
 
-            int readData = 0;
+            // in.readLine()은 한 줄씩 읽고, 문장 하나를 전달하기 위해 String 으로 선언
+            String readData = "";
 
-            while((readData = in.read()) != -1){
-                out.write(readData); // 클라이언트에 메세지를 반송
-                System.out.write(readData); // 클라이언트의 메세지를 서버에도 출력
+            while((readData = in.readLine()) != null){
+                System.out.println("수신 메세지 : " + readData);
+                out.println("서버의 응답 : " + readData); // 클라이언트에 메세지를 반송
+//                out.flush(); // 버퍼의 모든 내용을 출력하고 버퍼를 비움
+                System.out.println(readData); // 클라이언트의 메세지를 서버에도 출력
             }
 
         }catch (IOException e){
