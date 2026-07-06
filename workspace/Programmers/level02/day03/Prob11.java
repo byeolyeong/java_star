@@ -3,6 +3,7 @@ package level02.day03;
 import java.util.Arrays;
 
 public class Prob11 {
+    // 프로그래머스 입문 Day3 - 최빈값 구하기
     public int solution(int[] array) {
         int answer = 0;
         Arrays.sort(array); // 배열 정렬

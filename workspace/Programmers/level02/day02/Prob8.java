@@ -3,6 +3,7 @@ package level02.day02;
 
 public class Prob8 {
     public int[] solution(int[] numbers) {
+        // // 프로그래머스 입문 Day2 - 배열 두배 만들기
         int[] answer = new int[numbers.length];
         for (int i = 0; i < numbers.length; i++) {
             answer[i] = numbers[i] * 2;
