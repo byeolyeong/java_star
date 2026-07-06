@@ -1,6 +1,5 @@
-package ch02;
+package ch02.queue;
 
-import java.security.spec.RSAOtherPrimeInfo;
 import java.util.LinkedList;
 import java.util.Queue;
 
