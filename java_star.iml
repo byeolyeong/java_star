@@ -14,6 +14,7 @@
       <sourceFolder url="file://$MODULE_DIR$/workspace/TeamStudy" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/workspace/exam" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/workspace/Programmers" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/workspace/test" isTestSource="true" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
