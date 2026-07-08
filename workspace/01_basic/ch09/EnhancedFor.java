@@ -13,7 +13,7 @@ public class EnhancedFor {
 //        sum += scores[0];
 //        sum += scores[1];
 //        sum += scores[2];
-//        sum += scores[3];   //sum을 해당 인덱스에 누적을 시켜주기. 반복이 되는 코드이기 때문에 for문을 사용하기
+//        sum += scores[3];   //sum을 해당 인덱스에 누적을 시켜주기. 반복이 되는 코드이기 때문에 for 문을 사용하기
 //
 //        avg = sum / 4.0;
 
